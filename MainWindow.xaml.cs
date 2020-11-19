@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PLCControl.PLC;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,11 @@ namespace PLCControl
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            txtBox.Text = CPLC.Instance.ReadString("D10",20);   
         }
     }
 }
