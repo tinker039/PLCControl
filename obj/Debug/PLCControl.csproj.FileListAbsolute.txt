@@ -5,7 +5,6 @@ D:\GitHub\PLCControl\bin\Debug\HslCommunication.dll
 D:\GitHub\PLCControl\bin\Debug\Newtonsoft.Json.dll
 D:\GitHub\PLCControl\bin\Debug\HslCommunication.xml
 D:\GitHub\PLCControl\bin\Debug\Newtonsoft.Json.xml
-D:\GitHub\PLCControl\obj\Debug\PLCControl.csprojAssemblyReference.cache
 D:\GitHub\PLCControl\obj\Debug\MainWindow.g.cs
 D:\GitHub\PLCControl\obj\Debug\App.g.cs
 D:\GitHub\PLCControl\obj\Debug\PLCControl_MarkupCompile.cache
@@ -18,3 +17,9 @@ D:\GitHub\PLCControl\obj\Debug\PLCControl.csproj.CoreCompileInputs.cache
 D:\GitHub\PLCControl\obj\Debug\PLCControl.csproj.CopyComplete
 D:\GitHub\PLCControl\obj\Debug\PLCControl.exe
 D:\GitHub\PLCControl\obj\Debug\PLCControl.pdb
+D:\GitHub\PLCControl\obj\Debug\View\ConnectionTestView.g.cs
+D:\GitHub\PLCControl\obj\Debug\View\UnNamePage001.g.cs
+D:\GitHub\PLCControl\obj\Debug\View\ConnectionTestView.baml
+D:\GitHub\PLCControl\obj\Debug\View\UnNamePage001.baml
+D:\GitHub\PLCControl\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\GitHub\PLCControl\obj\Debug\PLCControl.csprojAssemblyReference.cache

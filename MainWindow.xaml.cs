@@ -1,4 +1,5 @@
 ﻿using PLCControl.PLC;
+using PLCControl.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace PLCControl
 {
@@ -24,11 +26,30 @@ namespace PLCControl
         public MainWindow()
         {
             InitializeComponent();
+            MainFrame.Content = new ConnectionTestView();
+            StartTimer();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// 切换显示界面
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ListView_Click(object sender, RoutedEventArgs e)
         {
-            txtBox.Text = CPLC.Instance.ReadString("D10",20);   
+            Button btn = e.OriginalSource as Button;
+            if (btn.Content.ToString() == "aaa")
+                MainFrame.Content = new ConnectionTestView();
+
         }
+        int ff = 0;
+        private void StartTimer()
+        {
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = new TimeSpan(10000000);//间隔为一秒
+            timer.Tick += (sender, e) => { txtTime.Text = ff.ToString(); ff++; };
+            timer.Start();
+        }
+
     }
 }

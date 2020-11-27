@@ -13,12 +13,12 @@ namespace PLCControl.PLC
     {
         private static CPLC _instance;
         public static CPLC Instance { get { if (_instance == null) _instance = new CPLC(); return _instance; } }
-        public  OmronFinsNet _omronFinsNet;
+        public OmronFinsNet _omronFinsNet;
         private string IP = "127.0.0.1";// PLC的IP地址
-        private  int Port { get; set; } = 9600;// PLC的端口
-        public  byte SA1 { get; set; } = 0x00; // PC网络号， PC的IP地址的最后一个数
-        public  byte DA1 { get; set; } = 0x00;  // PLC网络号，PLC的IP地址的最后一个数
-        public  byte DA2 { get; set; } = 0x00;
+        private int Port { get; set; } = 9600;// PLC的端口
+        public byte SA1 { get; set; } = 0x00; // PC网络号， PC的IP地址的最后一个数
+        public byte DA1 { get; set; } = 0x00;  // PLC网络号，PLC的IP地址的最后一个数
+        public byte DA2 { get; set; } = 0x00;
 
         // 实例化一个日志后，就可以使用了
         static ILogNet logNet = new LogNetSingle(".\\log.txt");
@@ -92,7 +92,7 @@ namespace PLCControl.PLC
         /// <param name="Length">读取数据的长度</param>
         /// <param name="IsFormatString">是否调整字符串顺序(不调整顺序错乱)</param>
         /// <returns>返回读取到的String类型数据,发生错误时返回Error</returns>
-        public  string ReadString(string Address, ushort Length, bool IsFormatString = true)
+        public string ReadString(string Address, ushort Length, bool IsFormatString = true)
         {
             string strResult;
             OperateResult<string> operateResult = _omronFinsNet.ReadString(Address, Length);
@@ -116,5 +116,30 @@ namespace PLCControl.PLC
             return strResult;
         }
 
+        /// <summary>
+        /// 向PLC写单个BOOL值,返回操作是否成功
+        /// </summary>
+        /// <param name="address">PLC地址</param>
+        /// <param name="value">BOOL值</param>
+        /// <returns>操作结果</returns>
+        public bool WriteBool(string address, bool value)
+        {
+            OperateResult operateResult = _omronFinsNet.Write(address, value);
+            return operateResult.IsSuccess;
+        }
+        /// <summary>
+        /// 读单个bool值
+        /// </summary>
+        /// <param name="address">PLC地址</param>
+        /// <returns>**读取失败返回false**</returns>
+        public bool ReadBool(string address)
+        {
+            OperateResult<bool> operateResult = _omronFinsNet.ReadBool(address);
+            if (operateResult.IsSuccess && operateResult.Content)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
