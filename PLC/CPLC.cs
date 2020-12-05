@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using HslCommunication;
 using HslCommunication.LogNet;
@@ -19,6 +20,9 @@ namespace PLCControl.PLC
         public byte SA1 { get; set; } = 0x00; // PC网络号， PC的IP地址的最后一个数
         public byte DA1 { get; set; } = 0x00;  // PLC网络号，PLC的IP地址的最后一个数
         public byte DA2 { get; set; } = 0x00;
+
+        Thread threadPLCStatus;
+
 
         // 实例化一个日志后，就可以使用了
         static ILogNet logNet = new LogNetSingle(".\\log.txt");
@@ -62,28 +66,63 @@ namespace PLCControl.PLC
          
          */
         #endregion
-
-
-        CPLC()
+        /// <summary>
+        /// 连接PLC   本来是不用特意连接,由于缺少连接状态的判定
+        /// </summary>
+        /// <returns></returns>
+        public bool Connection()
         {
             _omronFinsNet = new OmronFinsNet() { IpAddress = IP, Port = Port, SA1 = SA1, DA1 = DA1, DA2 = DA2, ConnectTimeOut = 1100 };
             #region 旧代码
-            //OperateResult connect = _omronFinsNet.ConnectServer();
-            //if (!connect.IsSuccess)
-            //{
-            //    Console.WriteLine("connect failed:" + connect.Message);
-            //    return;
-            //}
+            OperateResult connect = _omronFinsNet.ConnectServer();
+            if (!connect.IsSuccess)
+            {
+                Console.WriteLine("connect failed:" + connect.Message);
+                IsConnectioned = false;
+                return false;
+            }
             #endregion
 
             _omronFinsNet.SetPersistentConnection();//长连接模式
+            IsConnectioned = true;
+            logNet.WriteDebug("PLC", "PLC连接成功!");
+
+
+            threadPLCStatus = new Thread(StatusCheck);
+            threadPLCStatus.IsBackground = true;
+            threadPLCStatus.Start();
+            return true;
+        }
+
+        private void StatusCheck()
+        {
+            while (true)
+            {
+                if (!CPLC.Instance.WriteBool("D10.01", true) || !CPLC.Instance.ReadBool("D10.01"))
+                {
+                    IsConnectioned = false;
+                    continue;
+                }
+                Thread.Sleep(500);
+                if (!CPLC.Instance.WriteBool("D10.01", false))
+                {
+                    IsConnectioned = false;
+                    continue;
+                }
+                Thread.Sleep(500);
+            }
+        }
+        public bool IsConnectioned { get; set; }
+        CPLC()
+        {
+
+            Connection();
 
             //日志记录之前现在控制台打印一遍
             logNet.BeforeSaveToFile += (object sender, HslEventArgs e) =>
             {
                 Console.WriteLine(e.HslMessage.ToString());
             };
-            logNet.WriteDebug("PLC", "PLC连接成功!");
         }
         /// <summary>
         /// 读取String类型数据

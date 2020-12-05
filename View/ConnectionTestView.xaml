@@ -7,7 +7,7 @@
       xmlns:dc="clr-namespace:PLCControl.ViewModel"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ConnectionTestView">
+      Title="ConnectionTestView" Unloaded="Page_Unloaded">
    
     <Page.Resources>
         <h:ColorConverter x:Key="cc"/>
@@ -18,7 +18,7 @@
             <TextBlock Text="{Binding Address}"></TextBlock>
         </DataTemplate>
         <DataTemplate x:Key="changeAddressDT">
-            <TextBox Text="{Binding Address,UpdateSourceTrigger=Explicit}" Width="50" KeyDown="changeAddressDT_KeyDown" ></TextBox>
+            <TextBox Text="{Binding Address,UpdateSourceTrigger=Explicit}" Width="60" KeyDown="changeAddressDT_KeyDown" ></TextBox>
         </DataTemplate>
         <DataTemplate x:Key="statusDT">
             <Ellipse Width="15" Height="15">
@@ -28,8 +28,10 @@
             </Ellipse>
         </DataTemplate>
         <DataTemplate x:Key="istestDT">
-            <CheckBox IsChecked="{Binding IsTest,UpdateSourceTrigger=PropertyChanged}">
-            </CheckBox>
+            <Grid Width="35">
+                <CheckBox IsChecked="{Binding IsTest,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" >
+                </CheckBox>
+            </Grid>
         </DataTemplate>
     </Page.Resources>
     <Page.DataContext>
@@ -37,6 +39,7 @@
     </Page.DataContext>
     <Grid>
         <StackPanel>
+            <TextBlock Text="{Binding ShouMsg}"></TextBlock>
             <ListView ItemsSource="{Binding FIOPoints}">
                 <ListView.View>
                     <GridView>

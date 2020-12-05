@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace PLCControl.Model
 {
 
-    class IOPoint : INotifyPropertyChanged
+    public class IOPoint : INotifyPropertyChanged
     {
         /// <summary>
         /// IO点名称

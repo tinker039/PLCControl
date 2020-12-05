@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PLCControl.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,11 @@ namespace PLCControl.View
     /// </summary>
     public partial class ConnectionTestView : Page
     {
+
         public ConnectionTestView()
         {
             InitializeComponent();
+            this.Focus();
         }
 
 
@@ -34,6 +37,14 @@ namespace PLCControl.View
                 BindingExpression binding = tb.GetBindingExpression(TextBox.TextProperty);
                 binding.UpdateSource();
             }
+        }
+
+
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            ConnectionTestViewModel c = DataContext as ConnectionTestViewModel;
+            c.Unloaded(sender, e);
         }
     }
 }
